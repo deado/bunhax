@@ -1,0 +1,46 @@
+Changes for bunhax...
+
+Reminder: All files must be placed in same directory unless you edit the source (please dont). Works best with root access.
+
+
+Changes * 0.2.3-rb
+*********************************
+- Fixed code for checking usable CPUs for each cpuset.
+- Added cpuset editing feature. Allows you to change a cpuset's usable cpus and mems.
+- Changed code used to write to files. Using built-in ruby function for better stability.
+- Made change to interactive mode cpuset listing. Wasn't updating properly after adding the editing feature.
+- Changed several if statements and while loops for more compact code and easier to read. 
+- Random code clean ups. Got rid of some unneeded statements laying around.
+
+
+Changes * 0.2.2-rb
+*********************************
+- Changed the way bunhax gets information about pids to correct crashing problem. (thx daf)
+- Corresponding with above, changed pid moving to prevent future issues.
+- Added standard error reporting. Help diag future issues.
+
+
+Changes * 0.2.1-rb
+*********************************
+- Corrected creating of cpusets. Editing files "/dev/cpuset/MySet/cpus" and "./mems" is no longer needed, unless editing after creation. 
+- Edited output when listing current cpusets to show which cpus it can use and how many tasks are currently attached to that cpuset.
+- Removed color toggling (on/off). Wasnt working properly so its back to the drawing board. Will be re-added in a later release
+- Changed contact information in version block
+- Removed all options for GUI mode... considering it does not exist.
+- Removed -beta tag. Bunhax is still, and will be in beta stage for a long time to come. Everyone knows this.
+- I am aware of an issue when printing tasks of it stopping and printing the usage. Does not always happen.. I am looking into this. Will be fixed in a future
+release
+
+
+Changes * 0.2.0-rb-beta
+*********************************
+- Not really sure what changed... I didnt record it!
+
+
+Changes * 0.1.9-rb-beta
+*********************************
+- Split into different files for easier bug tracking and organization
+- Edited the parsing of /proc/PID/stat to grab corrent cpu number.
+	i know this was working before but now for some reason it doesnt.. i hope it works for others!
+- Fixed typo on the Usage message. Showed 'bunhax.rb -p=CPUSET' which clearly did not work. correct syntax 'bunhax.rb -p CPUSET'
+- Started changelog
