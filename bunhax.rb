@@ -71,7 +71,7 @@ def printusage(error_code)
 			exit(error_code)
 	end
 end
-#printusage(1) if `whoami`.strip != "root"
+printusage(1) if `whoami`.strip != "root"
 
 #define the options allowed to user, and set rather an argument is required or not
 opts = GetoptLong.new(
@@ -165,7 +165,7 @@ begin
 		end
 	end
 	# test for missing options
-#	printusage(0) if !have_options_f
+	printusage(0) if !have_options_f
 rescue
 	$stderr.print "IO failed: " + $! + "\n"
 	# all other errors
