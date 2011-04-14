@@ -12,18 +12,17 @@ class Menu
                 puts "  p #{$c1}-#{$c2} display cpuset tasks"
                 puts "  q #{$c1}-#{$c2} quit"
                 puts "  v #{$c1}-#{$c2} display version information"
-                puts "  z #{$c1}-#{$c2} execute 'screen -d' (only works if running in screen)"
+                puts "  w #{$c1}-#{$c2} execute 'screen -d' (only works if running in screen)"
         end
         def Menu.version
                 #this is the version information... please leave it in tact..
                 puts " #{$head} bunhax - cpuset manager #{$head}"
-                puts "   Version#{$c1}:#{$c2} 0#{$c1}.#{$c2}2#{$c1}.#{$c2}3#{$c1}-#{$c2}rb"
-                puts "   Updated#{$c1}:#{$c2} 15 November 2007 (13:45 CST)"
-                puts "   Author#{$c1}:#{$c2} Jeremy #{$c1}\"#{$c2}deado#{$c1}\"#{$c2} Polley"
-                puts "   Email#{$c1}:#{$c2} jeremy#{$c1}@#{$c2}mystix#{$c1}.#{$c2}org"
-                puts "   AIM#{$c1}:#{$c2} d34d0"
-                puts "   MSN#{$c1}:#{$c2} imdeado#{$c1}@#{$c2}gmail#{$c1}.#{$c2}com"
-                puts "   IRC#{$c1}:#{$c2} irc#{$c1}.#{$c2}freenode#{$c1}.#{$c2}net #{$c1}##{$c2}gentoo.et"
+                puts "   Version: 0.2.4-rb"
+                puts "   Released: 12 April 2011"
+                puts "   Author: Jeremy \"deado\" Polley"
+                puts "   Email: imdeado@gmail.com"
+                puts "   AIM: d34d0"
+                puts "   IRC: irc.freenode.net/#gentoo.et "
         end
         def Menu.quit
                 #ends our program; i could just use 'exit' here.. but, this works just as well
@@ -35,7 +34,7 @@ class Menu
         end
         def Menu.colors
                 #this section is comming soon ffs
-	                puts "#{$head}This option allows you to change script colours and boldness..."
+	                puts "#{$head} This option allows you to change script colours and boldness..."
 	                puts "   Now, there will not be a list or a chart to show you the colors..."
 	                puts "   so you just kinda have to know what you are doing here. Enjoy!"
 	                sc1 = $c1.slice($c1.index("[")+1, $c1.length)

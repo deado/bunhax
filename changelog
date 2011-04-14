@@ -1,6 +1,21 @@
 Changes for bunhax...
 
-Reminder: All files must be placed in same directory unless you edit the source (please dont). Works best with root access.
+Reminder: All files must be placed in same directory unless you edit the source (please dont). Requires root access.
+
+Changes * 0.2.4-rb
+*********************************
+- Added bunhax project to GitHub (https://github.com/deado/bunhax)
+- A lot of cleaning took place. (ie. closing files after done with them rather than letting close from 'end', having 2 files open at one time.)
+- All moving now uses /bin/echo. Should help just in case there might be a moving error.
+- Offers to install itself to /etc/bunhax/ making symlink /sbin/bunhax (uninstall also available).
+- Added '.bunhax.conf' for program preferences and system settings.
+- Added classes: Parse, Sync
+- Checks to see if kernel was compiled with cpuset support.
+- Looks for /dev/cpuset and existing setup. Creates and mounts.
+- Checks to see if cpusets are currently mounted.
+- Saves your cpuset layout for easy and quick resetup after reboots.
+- Please remember to report any error or bugs. Even if you fix them too, feel free to include your fix as well. Most problems become known from feedback and get fixed!
+- Updated to see new current cpu the task is running on.
 
 
 Changes * 0.2.3-rb

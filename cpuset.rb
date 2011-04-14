@@ -1,67 +1,69 @@
-#class for working mainly with the cpusets...
-# im sure there is probably a lot better way of doing this.. but at the time
-# this is the best i could come up with... basicly, the class methods
-# that have a 'g' infront of the actual method name.. is the shit for the interactive frontend
-# since the interactive frontend will be outputting a little more information on
-# the screen, and will have to get information from the user.. i had to do it
-# seperately from the "real" methods that actually do the work, so that it
-# doesnt mess with how our argv stuff works.
+#Class working with cpusets... duh!
 class Cpuset
+	def initialize(cpuset, cpus, mems)
+		@cpuset = cpuset
+		@cpus = cpus
+		@mems = mems
+		puts "#{$head} Setup virtual cpuset: #{@cpuset} : #{@cpus} : #{@mems}"
+	end
         # for interactive
-        def Cpuset.gadd
-                puts "#{$head}Preparing to make cpuset..."
-       	        print "#{$head}Enter cpuset name#{$c1}:#{$c2} "
+        def Cpuset.iadd
+                puts "#{$head} Preparing to make cpuset..."
+       	        print "#{$head} Enter cpuset name#{$c1}:#{$c2} "
                 cpuset = gets.strip
-                puts "#{$head}Error #{$c1}->#{$c2} empty cpuset name" if cpuset.empty?
-
-		print "#{$head}Enter usable cpus#{$c1}:#{$c2}(0) "
+		if cpuset.empty?
+			puts "#{$head} Error #{$c1}->#{$c2} empty cpuset name"
+			return
+		end
+		print "#{$head} Enter usable cpus#{$c1}:#{$c2}(0) "
 		cpus = gets.strip
 		cpus = "0" if cpus.empty?
-		print "#{$head}Enter usable memory set#{$c1}:#{$c2}(0) "
+		print "#{$head} Enter usable memory set#{$c1}:#{$c2}(0) "
 		mems = gets.strip
                 mems = "0" if mems.empty?
 		Cpuset.add(cpuset, cpus, mems)
+		$newSet = Cpuset.new(cpuset, cpus, mems)
         end
         #does actual work
         def Cpuset.add(cpuset, cpus, mems)
                 if !FileTest.exist?($cpuset_dir + "/" + cpuset)
-                        puts "#{$head}Good, doesnt exist. Creating..."
+                        puts "#{$head} Good, doesnt exist. Creating..."
                         Dir.mkdir($cpuset_dir + "/" + cpuset)
 			edit_file = ($cpuset_dir + "/" + cpuset + "/mems")
-			`echo #{mems} > #{edit_file}`
+			`/bin/echo #{mems} > #{edit_file}`
 			edit_file = ($cpuset_dir + "/" + cpuset + "/cpus")
-			`echo #{cpus} > #{edit_file}`
+			`/bin/echo #{cpus} > #{edit_file}`
                 else
-                        puts "#{$head}That cpuset already exists!"
+                        puts "#{$head} That cpuset already exists!"
                 end
         end
         #for interactive
-        def Cpuset.gdelete
-                print "#{$head}Enter cpuset name#{$c1}:#{$c2} "
+        def Cpuset.idelete
+                print "#{$head} Enter cpuset name#{$c1}:#{$c2} "
                 cpuset = gets.strip
-                puts "#{$head}Error #{$c1}->#{$c2} empty cpuset name" if cpuset.empty?
-                Cpuset.delete(cpuset)
+		(!cpuset.empty?) ? Cpuset.delete(cpuset) : (puts "#{$head} Error #{$c1}->#{$c2} empty cpuset name") && return 
         end
         #does actual work
         def Cpuset.delete(cpuset)
-                if FileTest.exist?($cpuset_dir + "/" + cpuset)
-                        puts "#{$head}Good, cpuset exist. Deleting..."
-                        Dir.delete($cpuset_dir + "/" + cpuset)
+		newset = "#{$cpuset_dir}/#{cpuset}"
+                if FileTest.exist?(newset)
+                        puts "#{$head} Good, cpuset exist. Deleting..."
+                        Dir.delete(newset)
                 else
-                        puts "#{$head}That cpuset doesn't exist!"
+                        puts "#{$head} That cpuset doesn't exist!"
                 end
         end
-	def Cpuset.gedit
-		print "#{$head}Enter cpuset name#{$c1}:#{$c2} "
+	def Cpuset.iedit
+		print "#{$head} Enter cpuset name#{$c1}:#{$c2} "
 		cpuset = gets.strip
 		if cpuset.empty?
-			puts "#{$head}Error #{$c1}->#{$c2} empty cpuset name"
+			puts "#{$head} Error #{$c1}->#{$c2} empty cpuset name"
 		else
 			#lets get the current settings for cpus and mems
 			cpusFile = File.new($cpuset_dir + "/" + cpuset + "/cpus", "r")
-			memsFile = File.new($cpuset_dir + "/" + cpuset + "/mems", "r")
 			oldcpus = cpusFile.readline.strip
 			cpusFile.close
+			memsFile = File.new($cpuset_dir + "/" + cpuset + "/mems", "r")
 			oldmems = memsFile.readline.strip
 			memsFile.close
 
@@ -88,36 +90,41 @@ class Cpuset
 			puts "#{cpuset}: now using CPU: #{cpus} and MEM: #{mems}"
 			Cpuset.organize(cpuset)
 		else
-			puts "#{$head}Error #{$c1}->#{$c2} cpuset does not exist"
+			puts "#{$head} Error #{$c1}->#{$c2} cpuset does not exist"
 		end
 	end
-	def Cpuset.organize(cpuset)
+	def Cpuset.organize
+		print "What cpuset: "
+		cpuset = gets.strip
 		#after you edit a sets cpus this reorganizes the pids so they change to the correct cpus.
 		pids = []
 		pidFile = File.new($cpuset_dir + "/" + cpuset + "/tasks", "r")
-		puts "#{$head}Organizing pids..."
+		puts "#{$head} Organizing pids..."
 		pidFile.each {|line| pids.push(line.strip)} while !pidFile.eof
 		pids.each {|i| Task.domove(i, cpuset)}
+		pidFile.close
 	end
         # didnt need an interactive method for this one.. because the command doesnt
         # take any arguements..
         def Cpuset.list
                 cpuDir = Dir.new($cpuset_dir)
-                puts "#{$head}Listing cpusets..."
-		puts "CPUSET		CPUS		\# Tasks"
-		puts "------------------------------------------"
-		Cpuset.getinfo("/")
+                puts "#{$head} Listing cpusets..."
+		puts "CPUSET		CPUS		MEMS		\# Tasks"
+		puts "----------------------------------------------------------"
+		puts (Cpuset.getinfo("/")).gsub(/[:]/, "\t\t")
                 #trix to list only directories (cpusets are determined as directories... doesn't include "." or ".."
                 cpuDir.entries[2..-1].each do |file|
-                        Cpuset.getinfo(file) if File.ftype(cpuDir.path + "/" + file) == "directory"
+                        puts (Cpuset.getinfo(file)).gsub(/[:]/, "\t\t") if File.ftype(cpuDir.path + "/" + file) == "directory"
                 end
         end
 	def Cpuset.getinfo(cpuset)
 		getdir = $cpuset_dir + "/" + cpuset
 		gettasks = getdir + "/tasks"
 		getcpus = getdir + "/cpus"
-		puts "#{$head}Error -> unable to locate cpuset file: tasks" if !FileTest.exist?(gettasks)
-		puts "#{$head}Error -> unable to locate cpuset file: cpus" if !FileTest.exist?(getcpus)
+		getmems = getdir + "/mems"
+		puts "#{$head} Error -> unable to locate file: #{gettasks}" if !FileTest.exist?(gettasks)
+		puts "#{$head} Error -> unable to locate file: #{getcpus}" if !FileTest.exist?(getcpus)
+		puts "#{$head} Error -> unable to locate file: #{getmems}" if !FileTest.exist?(getmems)
 
 		lines = `wc -l #{gettasks}`
 		#lets trim it down a bit so we just get the number
@@ -125,11 +132,10 @@ class Cpuset
 		cpusFile = File.new(getcpus, "r")
 		cpus = cpusFile.readline.strip
 		cpusFile.close
+		memsFile = File.new(getmems, "r")
+		mems = memsFile.readline.strip
+		memsFile.close
 		
-		if cpuset == "/"
-			puts "#{cpuset}		#{cpus}		#{lines}"
-		else
-			puts "/#{cpuset}		#{cpus}		#{lines}"
-		end
+		result = "#{cpuset}:#{cpus}:#{mems}:#{lines}"
 	end
 end
