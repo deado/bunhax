@@ -22,8 +22,6 @@ move_args       = []
 ptasks_args     = []
 have_options_f  = false
 
-(FileTest.exists?($conf)) ? Parse.config : Sync.init
-
 # app colors
 info_char	= "~"
 $c1		= "\033[0;36m" #accients
@@ -72,6 +70,8 @@ def printusage(error_code)
 	end
 end
 printusage(1) if `whoami`.strip != "root"
+
+(FileTest.exists?($conf)) ? Parse.config : Sync.init
 
 #define the options allowed to user, and set rather an argument is required or not
 opts = GetoptLong.new(
