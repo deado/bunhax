@@ -75,14 +75,6 @@ class Task
                 Task.multi(pids, cpuset)
         end
         def Task.multi(pids, cpuset)
-                #first check to see if either are empty
-                #if !pids.empty? and !cpuset.empty?
-                #        pida = []
-                #        pida = pids.split((pids =~ /\w*-\w*/) ? "-" : ",")
-                #        pida.each {|pid| Task.domove(pid, cpuset)}
-                #else
-                #        puts "#{$head} There was a problem with your request... please try again."
-                #end
 		if pids.empty? or cpuset.empty?
 			puts "#{$head} pids and/or cpuset cannot be empty"
 			return
@@ -90,15 +82,12 @@ class Task
 		pida = []
 		case pids
 			when /\w*\-\w*/
-				puts "range"
 				pida = pids.split("-")
-				puts pida
 				for i in pida[0]..pida[1]
 					Task.domove(i, cpuset)
 				end
 				return
 			when /\w*,\w*/
-				puts "commas"
 				pida = pids.split(",")
 				pida.each {|i| Task.domove(i, cpuset)}
 				return
