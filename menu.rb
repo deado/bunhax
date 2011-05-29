@@ -2,16 +2,24 @@ class Menu
         def Menu.help
                 puts " #{$head} bunhax - cpuset manager #{$head}"
                 puts "  a #{$c1}-#{$c2} move multiple PIDs to a cpuset"
+<<<<<<< HEAD
 		puts "  c #{$c1}-#{$c2} save your cpuset tree to config"
                 puts "  d #{$c1}-#{$c2} delete cpuset"
 		puts "  e #{$c1}-#{$c2} edit cpuset's usable cpus and mems"
                 puts "  h #{$c1}-#{$c2} display help menu"
 		puts "  k #{$v1}-#{$c2} reset tasks to their current cpuset (testing)"
+=======
+                puts "  c #{$c1}-#{$c2} change application colors 'on the fly'"
+                puts "  d #{$c1}-#{$c2} delete cpuset"
+		puts "  e #{$c1}-#{$c2} edit cpuset's usable cpus and mems"
+                puts "  h #{$c1}-#{$c2} display help menu"
+>>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
                 puts "  l #{$c1}-#{$c2} display available cpusets"
                 puts "  m #{$c1}-#{$c2} move PID to cpuset"
                 puts "  n #{$c1}-#{$c2} create new cpuset"
                 puts "  p #{$c1}-#{$c2} display cpuset tasks"
                 puts "  q #{$c1}-#{$c2} quit"
+<<<<<<< HEAD
 		puts "  s #{$c1}-#{$c2} recreate cpusets based off config"
 		puts "  t #{$c1}-#{$c2} reset tasks to cpusets based off config (under dev)"
                 puts "  v #{$c1}-#{$c2} display version information"
@@ -19,12 +27,21 @@ class Menu
                 puts "  x #{$c1}-#{$c2} change application colors 'on the fly'"
 		puts "  y #{$c1}-#{$c2} install bunhax to /etc/bunhax/"
 		puts "  z #{$c1}-#{$c2} uninstall bunahx from /etc/bunhax/"
+=======
+                puts "  v #{$c1}-#{$c2} display version information"
+                puts "  w #{$c1}-#{$c2} execute 'screen -d' (only works if running in screen)"
+>>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
         end
         def Menu.version
                 #this is the version information... please leave it in tact..
                 puts " #{$head} bunhax - cpuset manager #{$head}"
+<<<<<<< HEAD
                 puts "   Version: 0.2.5-rb"
                 puts "   Released: 28 May 2011"
+=======
+                puts "   Version: 0.2.4-rb"
+                puts "   Released: 12 April 2011"
+>>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
                 puts "   Author: Jeremy \"deado\" Polley"
                 puts "   Email: imdeado@gmail.com"
                 puts "   AIM: d34d0"

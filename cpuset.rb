@@ -5,8 +5,11 @@ class Cpuset
 		@cpus = cpus
 		@mems = mems
 		puts "#{$head} Setup virtual cpuset: #{@cpuset} : #{@cpus} : #{@mems}"
+<<<<<<< HEAD
 		puts "#{$head} Auto-syncing config."
 		Sync.config
+=======
+>>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 	end
         # for interactive
         def Cpuset.iadd
@@ -35,7 +38,10 @@ class Cpuset
 			`/bin/echo #{mems} > #{edit_file}`
 			edit_file = ($cpuset_dir + "/" + cpuset + "/cpus")
 			`/bin/echo #{cpus} > #{edit_file}`
+<<<<<<< HEAD
 			`/bin/echo 1 > #{$cpuset_dir + "/" + cpuset + "/cpu_exclusive"}`
+=======
+>>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
                 else
                         puts "#{$head} That cpuset already exists!"
                 end
@@ -52,7 +58,10 @@ class Cpuset
                 if FileTest.exist?(newset)
                         puts "#{$head} Good, cpuset exist. Deleting..."
                         Dir.delete(newset)
+<<<<<<< HEAD
 			Sync.config
+=======
+>>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
                 else
                         puts "#{$head} That cpuset doesn't exist!"
                 end
@@ -92,7 +101,10 @@ class Cpuset
 			memsFile.puts(mems)
 			memsFile.close
 			puts "#{cpuset}: now using CPU: #{cpus} and MEM: #{mems}"
+<<<<<<< HEAD
 			Sync.config
+=======
+>>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 			Cpuset.organize(cpuset)
 		else
 			puts "#{$head} Error #{$c1}->#{$c2} cpuset does not exist"

@@ -32,7 +32,10 @@ class Sync
 		end
 		`/bin/echo v:mounted:#{$mounted} >> #{$conf}`
 		`/bin/echo v:enabled:#{$enabled} >> #{$conf}`
+<<<<<<< HEAD
 		return
+=======
+>>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 	end
 	def Sync.install
 		puts "#{$head} Installing bunhax in a better place on your system"
@@ -40,7 +43,10 @@ class Sync
 		`cp bunhax.rb cpuset.rb task.rb sync.rb menu.rb parse.rb /etc/bunhax/`
 		`ln -s /etc/bunhax/bunhax.rb /sbin/bunhax`
 		puts "Done. Running 'bunhax' should now work. :)"
+<<<<<<< HEAD
 		Sync.init
+=======
+>>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 	end
 	def Sync.init
 	        puts "#{$head} Examining system..."
@@ -63,7 +69,10 @@ class Sync
 				#we still need to check and see if it is mounted at this point because $cpuset_dir exists.
 				puts "#{$cpuset_dir} exists!"
 	                        Cpuset.list
+<<<<<<< HEAD
 				Sync.config
+=======
+>>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 	                end
 	        else
 	                puts "cpusets are not enabled in your kernel."

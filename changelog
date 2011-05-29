@@ -2,6 +2,7 @@ Changes for bunhax...
 
 Reminder: All files must be placed in same directory unless you edit the source (please dont). Requires root access.
 
+<<<<<<< HEAD
 
 Changes * 0.2.5-rb
 *********************************
@@ -11,6 +12,8 @@ Changes * 0.2.5-rb
 - Auto-sync config after any alteration of cpusets and original init.
 
 
+=======
+>>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 Changes * 0.2.4-rb
 *********************************
 - Added bunhax project to GitHub (https://github.com/deado/bunhax)
