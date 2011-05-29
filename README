@@ -1,0 +1,20 @@
+check changelog for best information. need anything else drop me an email imdeado@gmail.com
+
+config file syntax - broken down (you shouldnt be changing anything in the config anyways...):
+
+c:cpuset1:0-1:0
+
+c:	(required. tells bunhax its a cpuset)
+cpuset1 (name of cpuset)
+0-1	(usable cpus (single digit acceptable))
+0	(usable mems (range acceptable like cpus))
+---------------------
+
+v:varname:value
+
+v:	(tells bunhax its a variable)
+varname (variable name)
+value	(whatever varname is to be set as)
+---------------------
+
+

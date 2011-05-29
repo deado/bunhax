@@ -1,31 +1,24 @@
 #class for working with tasks...
 class Task
-        def Task.glist
-                print "#{$head}List tasks for: "
+        def Task.ilist
+                print "#{$head} List tasks for: "
                 cpuset = gets.strip
-                if cpuset.empty?
-                        puts "#{$head}Invalid input"
-		else
-	                Task.list(cpuset)
-		end
+		(!cpuset.empty?) ? Task.list(cpuset) : (puts "#{$head} Invalid input")
         end
         def Task.list(cpuset)
                 if !FileTest.exist?($cpuset_dir + "/" + cpuset + "/tasks")
-                        if cpuset == "all"
-                                Task.listall
-                        else
-                                puts "#{$head}I'm sorry that cpuset doesn't exist."
-                        end
+                        (cpuset == "all") ? Task.listall : (puts "#{$head} I'm sorry that cpuset doesn't exist.")
                 else
                         apidlist = []
-                        puts "#{$head}Found cpuset, getting list. This may take a moment."
+                        puts "#{$head} Found cpuset, getting list. This may take a moment."
                         tfile = File.new($cpuset_dir + "/" + cpuset + "/tasks", "r")
                         #fill our array with the pids from our cpuset
                         tfile.each {|line| apidlist.push(line.strip)} while !tfile.eof
-                        puts "#{$head}Task list for... #{cpuset}"
+                        puts "#{$head} Task list for... #{cpuset}"
                         puts "PID  #{$c1}-#{$c2}  Name  #{$c1}-#{$c2}  CPU"
                         #transfer pids to a different class method for easier parsing...
                         apidlist.each {|i| Task.getinfo(i)}
+			tfile.close
                 end
         end
         def Task.listall
@@ -47,9 +40,10 @@ class Task
                         tfile.each {|line| apidlist.push(line.strip)} while !tfile.eof
                         #we now have our list of pids, so lets just pass them to Task.getinfo like before
                         #but first lets tell the user which cpuset we are listing...
-                        print "\n\n#{$head}Task list for... #{cpuset}\n"
+                        print "\n\n#{$head} Task list for... #{cpuset}\n"
                         puts "PID  #{$c1}-#{$c2}  Name  #{$c1}-#{$c2}  CPU"
                         apidlist.each {|i| Task.getinfo(i)}
+			tfile.close
                 end
         end
         def Task.getinfo(pid)
@@ -59,30 +53,21 @@ class Task
 		pid_stat = pidFile.readline
                 pidFile.close
                 # we already have the pid, and we are outputing it differently later so only grab the app.name
-                pidName = pid_stat.slice(pid_stat.index("("), (pid_stat.index(")") - pid_stat.index("(")) + 1)
-                #now slice the line down a bit to find out which cpu the app is on
-                pidLine = pid_stat.slice(0, pid_stat.rindex(" ") - 3)
-                pidLine = pidLine.slice(0, pidLine.rindex(" "))
-                pidcpu = pidLine.slice(-1, pidLine.length)
+		a = pid_stat.split(' ')
+                pidName = (a[2] =~ /\)$/) ? "#{a[1]} #{a[2]}" : a[1]
+                pidcpu = (a.length == 44) ? a[38] : a[39]
                 #output in a nice format.. with colours!
                 puts "#{pid} #{$c1}-#{$c2} #{pidName} #{$c1}-#{$c2} #{pidcpu}"
         end
-        def Task.gmove
+        def Task.imove
                 print "Move PID#{$c1}:#{$c2} "
                 pid = gets.strip
                 print "What cpuset#{$c1}:#{$c2} "
                 cpuset = gets.strip
-                Task.move(pid, cpuset)
+		((!pid.empty?) && (!cpuset.empty?)) ? Task.domove(pid, cpuset) : (puts "#{$head} There was a problem with your request... please try again.") && return
         end
-        def Task.move(pid, cpuset)
-                if !pid.empty? and !cpuset.empty?
-                        Task.domove(pid, cpuset)
-                else
-                        puts "#{$head}There was a problem with your request... please try again."
-                end
-        end
-        def Task.gmulti
-                puts "#{$head}When entering PIDS... use commas as your seperater and no spaces."
+        def Task.imulti
+                puts "#{$head} When entering PIDS... use commas as your seperater and no spaces."
                 print "PIDs to move#{$c1}:#{$c2} "
                 pids = gets.strip
                 print "Move to CPUSET#{$c1}:#{$c2} "
@@ -90,14 +75,23 @@ class Task
                 Task.multi(pids, cpuset)
         end
         def Task.multi(pids, cpuset)
-                #first check to see if either are empty
-                if !pids.empty? and !cpuset.empty?
-                        pida = []
-                        pida = pids.split(",")
-                        pida.each {|pid| Task.domove(pid, cpuset)}
-                else
-                        puts "#{$head}There was a problem with your request... please try again."
-                end
+		if pids.empty? or cpuset.empty?
+			puts "#{$head} pids and/or cpuset cannot be empty"
+			return
+		end
+		pida = []
+		case pids
+			when /\w*\-\w*/
+				pida = pids.split("-")
+				for i in pida[0]..pida[1]
+					Task.domove(i, cpuset)
+				end
+				return
+			when /\w*,\w*/
+				pida = pids.split(",")
+				pida.each {|i| Task.domove(i, cpuset)}
+				return
+		end
         end
         def Task.domove(pid, cpuset)
                 pid_stat = ""
@@ -108,14 +102,9 @@ class Task
                         pid_name = pid_stat.slice(0, pid_stat.index(")") + 1)
                         puts "#{$head}Moving #{pid} #{$c1}->#{$c2} #{cpuset}"
                         #make sure cpuset is real
-                        if !FileTest.exist?($cpuset_dir + "/" + cpuset)
-                                puts "#{$head}CPUSET #{$c1}(#{$c2}#{cpuset}#{$c1})#{$c2} doesn't exist."
-                        else
-                                #use /bin/echo instead of just echo, because it will report if there is an error
-                                `/bin/echo #{pid} > #{$cpuset_dir}/#{cpuset}/tasks`
-                        end
+			(FileTest.exist?("#{$cpuset_dir}/#{cpuset}")) ? (`/bin/echo #{pid} > #{$cpuset_dir}/#{cpuset}/tasks`) : (puts "(#{cpuset}) doesn't exist.")
                 else
-                        puts "#{$head}PID #{$c1}(#{$c2}#{pida[x]}#{$c1})#{$c2} doesn't exist."
+                        puts "#{$head}PID #{$c1}(#{$c2}#{pid}#{$c1})#{$c2} doesn't exist."
                 end
         end
 end
