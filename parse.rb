@@ -6,10 +6,6 @@ class Parse
 				when /^c:/
 					$_.slice!("c:")
 					$setlist.push($_)
-<<<<<<< HEAD
-=======
-					#puts "cpuset: #{$_}"
->>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 				when /^v:/
 					#puts "variable: #{$_}"
 				when /^t:/

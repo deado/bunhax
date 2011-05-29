@@ -10,11 +10,7 @@ require "#{$app_path}/parse.rb"
 
 #init section ffs
 $EndProg	= false #we dont want bunhax to close right away do we?
-<<<<<<< HEAD
 #$IMode		= false #using this for interactive mode...
-=======
-$IMode		= false #using this for interactive mode...
->>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 $cpuset_dir	= "/dev/cpuset"
 $proc_dir	= "/proc"
 $conf		= "#{$app_path}/.bunhax.conf"
@@ -64,11 +60,7 @@ def printusage(error_code)
 		        puts "bunhax --move 12345,my_cpuset	attach PID '12345' to cpuset 'my_cpuset'"
 		        print "bunhax -p all			list and sort tasks for all cpusets\n\n"
 	
-<<<<<<< HEAD
 			puts "Must be root"
-=======
-			puts "Must be root (0.2.4)."
->>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 		        puts "Report bugs to Jeremy Polley <imdeado@gmail.com>"
 			puts " - irc.freenode.net #gentoo.et"
 		        exit(error_code)
@@ -116,17 +108,10 @@ begin
 				Cpuset.edit(edit_args[0], edit_args[1], edit_args[2])
 			when "--install"
 				Sync.install
-<<<<<<< HEAD
 				have_options_f = true
 			when "--list-cpusets"
 				Cpuset.list
 				have_options_f = true
-=======
-				#exit(0)
-			when "--list-cpusets"
-				Cpuset.list
-				#exit(0)
->>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 			when "--move"
 				move_args = arg.split(",")
 				have_options_f = true
@@ -148,7 +133,6 @@ begin
 				Task.list(ptasks_args[0])
 			when "--sync-cpusets"
 				Sync.cpusets
-<<<<<<< HEAD
 				have_options_f = true
 			when "--sync-tasks"
 				Sync.tasks
@@ -159,26 +143,11 @@ begin
 			when "--version"
 				Menu.version
 				have_options_f = true
-=======
-				#exit(0)
-			when "--sync-tasks"
-				Sync.tasks
-				#exit(0)
-			when "--sync-config"
-				Sync.config
-				#exit(0)
-			when "--version"
-				Menu.version
-				#exit(0)
->>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 			when "--help"
 				printusage(0)
 			when "--uninstall"
 				Sync.uninstall
-<<<<<<< HEAD
 				have_options_f = true
-=======
->>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 			when "--usage"
 				printusage(0)
 			when "--interactive"
@@ -192,10 +161,7 @@ begin
 						$stderr.print "#{$head} Error #{$c1}->#{$c2} #{$_}\n"
 					end
 				end
-<<<<<<< HEAD
 				exit(0)
-=======
->>>>>>> 42d616cf222f13535745734e8e8558b747bb76df
 		else
 			printusage(0)
 		end
