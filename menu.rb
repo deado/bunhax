@@ -23,7 +23,7 @@ class Menu
         def Menu.version
                 #this is the version information... please leave it in tact..
                 puts " #{$head} bunhax - cpuset manager #{$head}"
-                puts "   Version: 0.2.5-rb"
+                puts "   Version: #{$version}"
                 puts "   Released: 28 May 2011"
                 puts "   Author: Jeremy \"deado\" Polley"
                 puts "   Email: imdeado@gmail.com"

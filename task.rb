@@ -100,8 +100,11 @@ class Task
 	                pid_stat = pidFile.readline
         	        pidFile.close
                         pid_name = pid_stat.slice(0, pid_stat.index(")") + 1)
+                        if pid_name =~ /\/\d\)$/ then
+                        	puts "#{$head} Skipping core-specific task."
+                        	return
+                        end
                         puts "#{$head}Moving #{pid} #{$c1}->#{$c2} #{cpuset}"
-                        #make sure cpuset is real
 			(FileTest.exist?("#{$cpuset_dir}/#{cpuset}")) ? (`/bin/echo #{pid} > #{$cpuset_dir}/#{cpuset}/tasks`) : (puts "(#{cpuset}) doesn't exist.")
                 else
                         puts "#{$head}PID #{$c1}(#{$c2}#{pid}#{$c1})#{$c2} doesn't exist."

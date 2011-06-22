@@ -40,15 +40,14 @@ class Sync
 		`cp bunhax.rb cpuset.rb task.rb sync.rb menu.rb parse.rb /etc/bunhax/`
 		`ln -s /etc/bunhax/bunhax.rb /sbin/bunhax`
 		puts "Done. Running 'bunhax' should now work. :)"
-		Sync.init
+		#Sync.init
 	end
 	def Sync.init
 	        puts "#{$head} Examining system..."
 		if !FileTest.exist?("/etc/bunhax/bunhax.rb")
 			puts "#{$head} It is highly recommended that you install bunhax."
 			print "Would you like to do this now? (y/n): "
-			doinst = gets.strip.downcase
-			Sync.install if doinst == "y"
+			$_.strip.downcase == "y" ? Sync.install : $_.strip.downcase == "n" ? break : "Invalid input. Continuing with init" while gets
 		end
 	        `touch #{$conf}`
 	

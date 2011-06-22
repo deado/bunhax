@@ -3,10 +3,15 @@ Changes for bunhax...
 Reminder: All files must be placed in same directory unless you edit the source (please dont). Requires root access.
 
 
+Changes * 0.2.6-rb
+*********************************
+- Doesn't allow you to move core-specific tasks '(task/#)'
+
+
 Changes * 0.2.5-rb
 *********************************
 - Fixed printing usage after exiting from interactive mode.
-- For Legacy support 0.2.3-rb. (i believe pre 2.6.32 kernel) you can contact if you cant find a copy.
+- For Legacy support uses 0.2.3-rb. (i believe pre 2.6.32 kernel) you can contact if you cant find a copy.
 - Part fix for the tasks not moving to the proper cpu after move.
 - Auto-sync config after any alteration of cpusets and original init.
 
