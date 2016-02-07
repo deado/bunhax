@@ -77,6 +77,6 @@ class Sync
 	end
 	def Sync.mkmnt
 		Dir.mkdir($cpuset_dir)
-		$mounted = true if `mount -t cpuset cpuset /dev/cpuset`
+		$mounted = true if `mount -t cpuset cpuset /sys/fs/cgroup/cpuset`
 	end
 end
