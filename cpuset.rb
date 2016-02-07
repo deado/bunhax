@@ -31,11 +31,11 @@ class Cpuset
                 if !FileTest.exist?($cpuset_dir + "/" + cpuset)
                         puts "#{$head} Good, doesnt exist. Creating..."
                         Dir.mkdir($cpuset_dir + "/" + cpuset)
-			edit_file = ($cpuset_dir + "/" + cpuset + "/mems")
+			edit_file = ($cpuset_dir + "/" + cpuset + "/cpuset.mems")
 			`/bin/echo #{mems} > #{edit_file}`
-			edit_file = ($cpuset_dir + "/" + cpuset + "/cpus")
+			edit_file = ($cpuset_dir + "/" + cpuset + "/cpuset.cpus")
 			`/bin/echo #{cpus} > #{edit_file}`
-			`/bin/echo 1 > #{$cpuset_dir + "/" + cpuset + "/cpu_exclusive"}`
+			`/bin/echo 1 > #{$cpuset_dir + "/" + cpuset + "/cpuset.cpu_exclusive"}`
                 else
                         puts "#{$head} That cpuset already exists!"
                 end
@@ -64,10 +64,10 @@ class Cpuset
 			puts "#{$head} Error #{$c1}->#{$c2} empty cpuset name"
 		else
 			#lets get the current settings for cpus and mems
-			cpusFile = File.new($cpuset_dir + "/" + cpuset + "/cpus", "r")
+			cpusFile = File.new($cpuset_dir + "/" + cpuset + "/cpuset.cpus", "r")
 			oldcpus = cpusFile.readline.strip
 			cpusFile.close
-			memsFile = File.new($cpuset_dir + "/" + cpuset + "/mems", "r")
+			memsFile = File.new($cpuset_dir + "/" + cpuset + "/cpuset.mems", "r")
 			oldmems = memsFile.readline.strip
 			memsFile.close
 
@@ -85,10 +85,10 @@ class Cpuset
 	end
 	def Cpuset.edit(cpuset, cpus, mems)
 		if FileTest.exist?($cpuset_dir + "/" + cpuset)
-			cpusFile = File.new($cpuset_dir + "/" + cpuset + "/cpus", "w+")
+			cpusFile = File.new($cpuset_dir + "/" + cpuset + "/cpuset.cpus", "w+")
 			cpusFile.puts(cpus)
 			cpusFile.close
-			memsFile = File.new($cpuset_dir + "/" + cpuset + "/mems", "w+")
+			memsFile = File.new($cpuset_dir + "/" + cpuset + "/cpuset.mems", "w+")
 			memsFile.puts(mems)
 			memsFile.close
 			puts "#{cpuset}: now using CPU: #{cpus} and MEM: #{mems}"
@@ -125,8 +125,8 @@ class Cpuset
 	def Cpuset.getinfo(cpuset)
 		getdir = $cpuset_dir + "/" + cpuset
 		gettasks = getdir + "/tasks"
-		getcpus = getdir + "/cpus"
-		getmems = getdir + "/mems"
+		getcpus = getdir + "/cpuset.cpus"
+		getmems = getdir + "/cpuset.mems"
 		puts "#{$head} Error -> unable to locate file: #{gettasks}" if !FileTest.exist?(gettasks)
 		puts "#{$head} Error -> unable to locate file: #{getcpus}" if !FileTest.exist?(getcpus)
 		puts "#{$head} Error -> unable to locate file: #{getmems}" if !FileTest.exist?(getmems)
