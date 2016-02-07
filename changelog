@@ -2,6 +2,9 @@ Changes for bunhax...
 
 Reminder: All files must be placed in same directory unless you edit the source (please dont). Requires root access.
 
+Changes * 0.2.7-rb
+*********************************
+- Version bump, upgrade to newer /sys/fs layout
 
 Changes * 0.2.6-rb
 *********************************

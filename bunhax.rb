@@ -10,8 +10,8 @@ require "#{$app_path}/parse.rb"
 
 #init section ffs
 $EndProg	= false #we dont want bunhax to close right away do we?
-$version	= "0.2.6-rb" #using this for interactive mode...
-$cpuset_dir	= "/dev/cpuset"
+$version	= "0.2.7-rb" #using this for interactive mode...
+$cpuset_dir	= "/sys/fs/cgroup/cpuset"
 $proc_dir	= "/proc"
 $conf		= "#{$app_path}/.bunhax.conf"
 $setlist	= []

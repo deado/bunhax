@@ -55,7 +55,9 @@ class Task
                 # we already have the pid, and we are outputing it differently later so only grab the app.name
 		a = pid_stat.split(' ')
                 pidName = (a[2] =~ /\)$/) ? "#{a[1]} #{a[2]}" : a[1]
-                pidcpu = (a.length == 44) ? a[38] : a[39]
+                ### this used to work but now gives irregular results
+                ###pidcpu = (a.length == 44) ? a[38] : a[39]
+                pidcpu = a[38]
                 #output in a nice format.. with colours!
                 puts "#{pid} #{$c1}-#{$c2} #{pidName} #{$c1}-#{$c2} #{pidcpu}"
         end
